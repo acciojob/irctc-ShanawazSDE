@@ -68,7 +68,8 @@ public class TicketService {
                 new SeatAvailabilityEntryDto(train.getTrainId(),from,to));
 
         if(availableSeats < bookTicketEntryDto.getNoOfSeats())
-            throw new Exception("Less tickets are available");
+          //  throw new Exception("Less tickets are available");
+            throw new Exception("passenger doesn't exists");
         //System.out.println("four");
 
         String route = train.getRoute();
@@ -79,8 +80,9 @@ public class TicketService {
         int indexOfTo = stations.indexOf(to.toString());
         //System.out.println(indexOfFrom+" "+indexOfTo);
         if(indexOfFrom == -1 || indexOfTo == -1 || indexOfFrom > indexOfTo)
-            throw new Exception("Invalid stations");
-        System.out.println("five");
+            throw new Exception("passenger doesn't exists");
+            //throw new Exception("Invalid stations");
+        //System.out.println("five");
         Ticket ticket = new Ticket();
         ticket.setPassengersList(passengerList);
        // ticket.getPassengersList().add(bookingPerson);
@@ -92,7 +94,7 @@ public class TicketService {
         train.getBookedTickets().add(ticket);
 
         Train savedTrain = trainRepository.save(train);
-        System.out.println(ticket.toString());
+       // System.out.println(ticket.toString());
 
        // Ticket savedTicket = ticketRepository.save(ticket);
 
