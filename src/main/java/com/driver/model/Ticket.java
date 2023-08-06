@@ -1,14 +1,6 @@
 package com.driver.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -23,13 +15,15 @@ public class Ticket {
     private List<Passenger> passengersList;
 
     @ManyToOne
-    @JoinColumn
+//    @JoinColumn
     private Train train;
 
+   // @Enumerated(value = EnumType.STRING)
     private Station fromStation;
 
     private int totalFare;
 
+    //@Enumerated(value = EnumType.STRING)
     private Station toStation;
 
     public Ticket(int ticketId, List<Passenger> passengersList, Train train, Station fromStation, Station toStation,int totalFare) {
@@ -68,6 +62,7 @@ public class Ticket {
     public Ticket() {
     }
 
+
     public int getTicketId() {
         return ticketId;
     }
@@ -92,4 +87,15 @@ public class Ticket {
         this.train = train;
     }
 
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "ticketId=" + ticketId +
+                ", passengersList=" + passengersList +
+                ", train=" + train +
+                ", fromStation=" + fromStation +
+                ", totalFare=" + totalFare +
+                ", toStation=" + toStation +
+                '}';
+    }
 }
