@@ -112,8 +112,18 @@ public class TrainService {
         //If there are no people travelling in that train you can return 0
         Optional<Train> optionalTrain = trainRepository.findById(trainId);
         Train train = optionalTrain.get();
-//        train.
-        return 0;
+        List<Ticket> bookedTickets = train.getBookedTickets();
+        int currAge = 0;
+        for (Ticket ticket : bookedTickets){
+            List<Passenger> passengersList = ticket.getPassengersList();
+            for(Passenger passenger : passengersList){
+                if(passenger.getAge() > currAge){
+                    currAge = passenger.getAge();
+                }
+            }
+        }
+
+        return currAge;
     }
 
     public List<Integer> trainsBetweenAGivenTime(Station station, LocalTime startTime, LocalTime endTime){
@@ -123,8 +133,23 @@ public class TrainService {
         //You can assume that the date change doesn't need to be done ie the travel will certainly happen with the same date (More details
         //in problem statement)
         //You can also assume the seconds and milli seconds value will be 0 in a LocalTime format.
+        List<Train> allTrains = trainRepository.findAll();
+        List<Integer> list = new ArrayList<>();
+        for (Train train : allTrains){
+            String routeString = train.getRoute();
+            List<String> routeList = Arrays.asList(routeString.split(","));
+            if(routeList.contains(station.toString())){
+                int index = routeList.indexOf(station.toString());
+                LocalTime departureTime = train.getDepartureTime();
 
-        return null;
+                LocalTime arrivalTime = departureTime.plusHours(index);
+                if(arrivalTime.equals(startTime) || arrivalTime.equals(endTime) ||
+                        (arrivalTime.isAfter(startTime) && arrivalTime.isBefore(endTime))){
+                    list.add(train.getTrainId());
+                }
+            }
+        }
+        return list;
     }
 
 }
